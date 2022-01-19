@@ -1,14 +1,16 @@
-using System.Text.Json.Serialization;
+using System.Collections.Generic;
 
-public class FilmsResponse
+namespace RazmusBlazorWASM.Entities
 {
-  public int count { get; set; }
-  public string next { get; set; }
-  public string previous { get; set; }
-  public List<Film> results { get; set; }
-}
+  public class FilmsResponse
+  {
+    public int count { get; set; }
+    public string next { get; set; }
+    public string previous { get; set; }
+    public List<Film> results { get; set; }
+  }
 
-public class Film
+  public class Film
   {
     public List<string?> Characters { get; set; }
     public DateTime? Created { get; set; }
@@ -24,5 +26,5 @@ public class Film
     public string? Title { get; set; }
     public string? Url { get; set; }
     public List<string?> Vehicles { get; set; }
-
   }
+}

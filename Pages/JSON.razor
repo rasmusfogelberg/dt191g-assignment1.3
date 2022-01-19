@@ -1,5 +1,9 @@
 ﻿@page "/json"
-@inject HttpClient Http
+
+@using System.Threading.Tasks;
+@using RazmusBlazorWASM.Entities
+
+@inject RazmusBlazorWASM.Services.IStarWarsService StarWarsService
 
 <PageTitle>JSON</PageTitle>
 
@@ -11,19 +15,38 @@
 }
 else
 {
-<ul>
-    @foreach(var film in films)
-    {
-        <li>@film.Title</li>
-    }
-</ul>
+    <div class="row">
+    @foreach (var film in films)
+        {
+            <a class="card m1 bg-dark-opacity" @onclick="() => SetActiveFilm(film.Url)">
+                <div class="row no-gutters">
+                    <div class="col-4">
+                        <img class="card-img" src="" />
+                    </div>
+                    <div class="col-8">
+                        <div class="card-body">
+                            <p>@film.Release_date</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+
+    <Dialog />
 }
 
 @code {
+    private string thing = "";
     List<Film> films = new List<Film>();
+    public Film activeFilm = new Film();
     protected override async Task OnInitializedAsync()
     {
-        var response = await Http.GetFromJsonAsync<FilmsResponse>("/api/films");
+        var response = await StarWarsService.getFilms();
         films.AddRange(response.results);
+    }
+    private async Task SetActiveFilm(string url)
+    {
+        activeFilm = await StarWarsService.getFilm(url);
     }
 }
