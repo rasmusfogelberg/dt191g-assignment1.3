@@ -1,0 +1,62 @@
+﻿@page "/convert"
+
+<PageTitle>Convert</PageTitle>
+
+<h1>Convert</h1>
+
+<h2>Convert meters to feet</h2>
+<label>
+    Input meters:
+    <input @bind="MetersValue" />
+</label>
+
+<p>Inputed meters is equal to @feetValue feet</p>
+
+<h2>Convert km/h to mp/h</h2>
+<label>
+    Input km/h
+    <input @bind="KmPerHour"/>
+</label>
+
+<p>Inputed km/h is equal to @milesPerHour mp/h</p>
+
+@code {
+    private decimal metersValue;
+    private decimal feetValue;
+    private string MetersValue
+    {
+        get => metersValue.ToString();
+        set
+        {
+            feetValue = Length.MetersToFeet(Decimal.Parse(value));
+        }
+    }
+
+    public class Length
+    {
+        public static decimal MetersToFeet(decimal Meters)
+        {
+            return Math.Round(Meters * 3.28084m, 2);
+        }
+    }
+
+    private decimal kmPerHour;
+    private decimal milesPerHour;
+
+    private string KmPerHour 
+    {
+        get => kmPerHour.ToString();
+        set 
+        {
+            milesPerHour = Speed.KmToMiles(Decimal.Parse(value));
+        }
+    }
+
+    public class Speed
+    {
+        public static decimal KmToMiles(decimal Kilometers)
+        {
+            return Math.Round(Kilometers / 1.609m, MidpointRounding.ToEven);
+        }
+    }
+}

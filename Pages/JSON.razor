@@ -1,0 +1,29 @@
+﻿@page "/json"
+@inject HttpClient Http
+
+<PageTitle>JSON</PageTitle>
+
+<h1>JSON</h1>
+
+@if (films == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+<ul>
+    @foreach(var film in films)
+    {
+        <li>@film.Title</li>
+    }
+</ul>
+}
+
+@code {
+    List<Film> films = new List<Film>();
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await Http.GetFromJsonAsync<FilmsResponse>("/api/films");
+        films.AddRange(response.results);
+    }
+}
