@@ -1,13 +1,45 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager MyNavigationManager
 
-<div class="page">
-    <div class="sidebar">
+<div class="d-flex flex-column h-100">
+    <header>
         <NavMenu />
-    </div>
+    </header>
 
-    <main>
-        <article class="content px-4">
-            @Body
-        </article>
+    <main role="main" class="flex-shrink-0 container pb-3">
+        <p>@(MyNavigationManager.Uri)</p>
+        <div class="row">
+            <div class="d-none d-md-block border-0 col-4">
+                <div class="list-group">
+                    <NavLink
+                        href=""
+                        class="list-group-item list-group-item-action" Match=@NavLinkMatch.All>
+                        Start
+                    </NavLink>
+                    <NavLink
+                        href="converters"
+                        class="list-group-item list-group-item-action" Match=@NavLinkMatch.All>
+                        Converters
+                    </NavLink>
+                    <NavLink
+                        href="starwars"
+                        class="list-group-item list-group-item-action" Match=@NavLinkMatch.All>
+                        Show Starwars info (JSON)
+                    </NavLink>
+                </div>
+            </div>
+            <div class="border px-4 py-4 col-md-8">
+                @Body
+            </div>
+        </div>
     </main>
 </div>
+
+<footer class="border mt-auto py-4 px-4 footer">
+    <div class="container text-center pb-4">
+        <span class="text-muted">
+            Created by Rasmus Fogelberg &dash; Contact me at <a
+                href="mailto:fogelbergrasmus@gmail.com">fogelbergrasmus@gmail.com</a>
+        </span>
+    </div>
+</footer>
