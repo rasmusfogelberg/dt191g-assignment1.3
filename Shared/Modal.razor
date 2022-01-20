@@ -1,0 +1,54 @@
+﻿@using RazmusBlazorWASM.Entities;
+
+
+<div class="modal fade @modalClass" id="exampleModal" tabindex="-1" aria-labelledby="modalLabel" style="display: @modalDisplay">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">@SelectedFilm.Title - Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="() => Close()"></button>
+      </div>
+      <div class="modal-body">
+        <blockquote cite="Star Wars">@SelectedFilm.Opening_Crawl</blockquote>
+        <div class="row">
+        <div class="col-6">
+          <h5>Directed by</h5>
+          <span>@SelectedFilm.Director</span>
+        </div>
+        <div class="col-6">
+          <h5>Release date</h5>
+          <span>@SelectedFilm.Release_date</span>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+@code {
+    private string modalDisplay = "";
+    private string modalClass = "";
+
+    [Parameter]
+    public Film SelectedFilm { get; set; } = new Film();
+
+    [Parameter]
+    public EventCallback<Film> SelectedFilmChanged { get; set; }
+
+    public async Task Open()
+    {
+        modalDisplay = "block";
+        await Task.Delay(100);
+        modalClass = "show";
+        StateHasChanged(); // force rerender
+    }
+
+    public async Task Close()
+    {
+        modalDisplay = "none";
+        await Task.Delay(100);
+        modalClass = "";
+        SelectedFilm = new Film();
+        await SelectedFilmChanged.InvokeAsync(SelectedFilm);
+    }
+}
