@@ -32,21 +32,25 @@ else
             </a>
         }
     </div>
-
-    <Dialog />
 }
 
 @code {
-    private string thing = "";
     List<Film> films = new List<Film>();
     public Film activeFilm = new Film();
     protected override async Task OnInitializedAsync()
     {
         var response = await StarWarsService.getFilms();
-        films.AddRange(response.results);
+        if (response != null)
+        {
+            films.AddRange(response.results);
+        }
     }
     private async Task SetActiveFilm(string url)
     {
-        activeFilm = await StarWarsService.getFilm(url);
+        var response = await StarWarsService.getFilm(url);
+        if (response != null)
+        {
+            activeFilm = response;
+        }
     }
 }

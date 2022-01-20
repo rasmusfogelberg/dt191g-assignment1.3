@@ -17,12 +17,30 @@ namespace RazmusBlazorWASM.Services
 
     public async Task<FilmsResponse?> getFilms()
     {
-      return await httpClient.GetFromJsonAsync<FilmsResponse>("/api/films");
+      try
+      {
+           var response = await httpClient.GetFromJsonAsync<FilmsResponse>("/api/films");
+           return response;
+      }
+      catch (HttpRequestException)
+      {
+        Console.WriteLine("An error occurred");
+      }
+      return null;
     }
 
     public async Task<Film?> getFilm(string url)
     {
-      return await httpClient.GetFromJsonAsync<Film>(url);
+      try
+      {
+           var response = await httpClient.GetFromJsonAsync<Film>(url);
+           return response;
+      }
+      catch (HttpRequestException)
+      {
+        Console.WriteLine("An error occurred");
+      }
+      return null;
     }
   }
 }
