@@ -7,7 +7,7 @@
 
 <PageTitle>JSON</PageTitle>
 
-<h1>JSON</h1>
+<h1>Show Starwars info (JSON)</h1>
 
 @if (films == null)
 {
@@ -32,15 +32,30 @@ else
                 </div>
             </a>
         }
-        @if (activeFilm is not null)
+        @if (activeFilm != null)
         {
-            <Modal @ref="modal" @bind-SelectedFilm="activeFilm" />
+            <Modal @ref="modal">
+                <Title>@activeFilm.Title - Details</Title>
+                <Body>
+                    <blockquote cite="Star Wars">@activeFilm.Opening_Crawl</blockquote>
+                    <div class="row">
+                        <div class="col-6">
+                            <h5>Directed by</h5>
+                            <span>@activeFilm.Director</span>
+                        </div>
+                        <div class="col-6">
+                            <h5>Release date</h5>
+                            <span>@activeFilm.Release_date</span>
+                        </div>
+                    </div>
+                </Body>
+            </Modal>
         }
     </div>
 }
 
 @code {
-    public Modal modal { get; set; } = new Modal();
+    public Modal? modal { get; set; } = new Modal();
     List<Film> films = new List<Film>();
     public Film activeFilm = new Film();
     protected override async Task OnInitializedAsync()
@@ -54,7 +69,7 @@ else
     private async Task SetActiveFilm(string url)
     {
         var response = await StarWarsService.getFilm(url);
-        if (response != null)
+        if (response != null && modal != null)
         {
             activeFilm = response;
             await modal.Open();
